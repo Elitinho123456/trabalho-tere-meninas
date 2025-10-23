@@ -15,7 +15,7 @@
   "type": "module",
   "main": "server.ts",
   "scripts": {
-    "test": "tsx server.ts"
+    "dev": "tsx watch server.ts"
   },
   "dependencies": {
     "bson": "^6.10.4",
@@ -29,6 +29,8 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.9.1"
+    "@types/node": "^24.9.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
   }
 }

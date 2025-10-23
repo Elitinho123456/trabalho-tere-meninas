@@ -177,6 +177,6 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 
 ## ✨ Créditos
 
-- Desenvolvido por [Seu Nome]
-- Professor: [Nome do Professor]
-- Instituição: [Nome da Instituição]
+- Desenvolvido por [Elitinho]
+- Professor: Tere
+- Instituição: IFMS

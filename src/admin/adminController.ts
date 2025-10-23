@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { getDb } from "../DB/db.connection";
+import db from "../DB/db.connection";
 import { ObjectId } from "mongodb";
 
 export default class AdminController {
-    private db = getDb();
+    private db = db;
     private users = this.db.collection('users');
     private carts = this.db.collection('carts');
     private products = this.db.collection('products');

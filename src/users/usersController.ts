@@ -1,23 +1,24 @@
 import { User, AdminUser } from "./usersClass";
 import { Request, Response } from "express";
-import { getDb } from "../DB/db.connection";
+import db from "../DB/db.connection";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
-import { ObjectId } from "mongodb";
+import { ObjectId, Collection } from "mongodb";
 
 export default class UserController {
-    private db = getDb();
+    // Usa a instância de 'db' importada
+    private db = db;
     private users = this.db.collection('users');
     private readonly JWT_SECRET = process.env.JWT_SECRET || 'JWTSEGREDOGIGATONICO';
-
+    
     async createUser(req: Request, res: Response) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        
+
         try {
             const { nome, email, password } = req.body;
 
             if (!nome || !email || !password) {
-                return res.status(400).json({ 
+                return res.status(400).json({
                     success: false,
                     message: "Todos os campos são obrigatórios"
                 });
@@ -47,12 +48,12 @@ export default class UserController {
 
             const user = new User(nome, email, password);
             await this.users.insertOne(user);
-            
+
             return res.status(201).json({
                 success: true,
                 message: "Usuário criado com sucesso"
             });
-            
+
         } catch (error) {
             console.error('Error creating user:', error);
             return res.status(500).json({
@@ -61,7 +62,7 @@ export default class UserController {
             });
         }
     }
-    
+
     async createAdminUser(req: Request, res: Response) {
         try {
             const { nome, email, password } = req.body;
@@ -98,12 +99,12 @@ export default class UserController {
 
             const adminUser = new AdminUser(nome, email, password);
             await this.users.insertOne(adminUser);
-            
+
             return res.status(201).json({
                 success: true,
                 message: "Administrador criado com sucesso"
             });
-            
+
         } catch (error) {
             console.error('Error creating admin:', error);
             return res.status(500).json({
@@ -123,26 +124,26 @@ export default class UserController {
                     message: "E-mail e senha são obrigatórios"
                 });
             }
-            
+
             const user = await this.users.findOne({ email });
-            
+
             if (!user || user.password !== password) {
                 return res.status(401).json({
                     success: false,
                     message: "Credenciais inválidas"
                 });
             }
-            
+
             const token = jwt.sign(
-                { 
+                {
                     userId: user._id.toString(),
                     email: user.email,
-                    role: user.role || 'user' 
+                    role: user.role || 'user'
                 },
                 this.JWT_SECRET,
                 { expiresIn: '8h' }
             );
-            
+
             return res.status(200).json({
                 success: true,
                 token,
@@ -153,7 +154,7 @@ export default class UserController {
                     role: user.role || 'user'
                 }
             });
-            
+
         } catch (error) {
             console.error('Login error:', error);
             return res.status(500).json({
@@ -162,32 +163,32 @@ export default class UserController {
             });
         }
     }
-    
+
     async deleteUser(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            
+
             if (!ObjectId.isValid(id)) {
                 return res.status(400).json({
                     success: false,
                     message: "ID de usuário inválido"
                 });
             }
-            
+
             const result = await this.users.deleteOne({ _id: new ObjectId(id) });
-            
+
             if (result.deletedCount === 0) {
                 return res.status(404).json({
                     success: false,
                     message: "Usuário não encontrado"
                 });
             }
-            
+
             return res.status(200).json({
                 success: true,
                 message: "Usuário removido com sucesso"
             });
-            
+
         } catch (error) {
             console.error('Error deleting user:', error);
             return res.status(500).json({
@@ -196,40 +197,40 @@ export default class UserController {
             });
         }
     }
-    
+
     async updateUser(req: Request, res: Response) {
         try {
             const { id } = req.params;
             const updateData = req.body;
-            
+
             if (!ObjectId.isValid(id)) {
                 return res.status(400).json({
                     success: false,
                     message: "ID de usuário inválido"
                 });
             }
-            
+
             if ('role' in updateData) {
                 delete updateData.role;
             }
-            
+
             const result = await this.users.updateOne(
                 { _id: new ObjectId(id) },
                 { $set: updateData }
             );
-            
+
             if (result.matchedCount === 0) {
                 return res.status(404).json({
                     success: false,
                     message: "Usuário não encontrado"
                 });
             }
-            
+
             return res.status(200).json({
                 success: true,
                 message: "Usuário atualizado com sucesso"
             });
-            
+
         } catch (error) {
             console.error('Error updating user:', error);
             return res.status(500).json({
@@ -238,19 +239,19 @@ export default class UserController {
             });
         }
     }
-    
+
     async getAllUsers(req: Request, res: Response) {
         try {
             const users = await this.users.find(
                 {},
                 { projection: { password: 0 } }
             ).toArray();
-            
+
             return res.status(200).json({
                 success: true,
                 data: users
             });
-            
+
         } catch (error) {
             console.error('Error fetching users:', error);
             return res.status(500).json({
