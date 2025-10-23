@@ -1,7 +1,7 @@
 {
-  "name": "trabalho-tere-meninas",
+  "name": "trabalho-tere",
   "version": "1.0.0",
-  "description": "",
+  "description": "Este é um sistema de e-commerce desenvolvido com Node.js, Express, MongoDB e TypeScript, implementando autenticação JWT e controle de acesso baseado em papéis (RBAC).",
   "homepage": "https://github.com/Elitinho123456/trabalho-tere-meninas#readme",
   "bugs": {
     "url": "https://github.com/Elitinho123456/trabalho-tere-meninas/issues"
@@ -11,13 +11,24 @@
     "url": "git+https://github.com/Elitinho123456/trabalho-tere-meninas.git"
   },
   "license": "MIT",
-  "author": "",
+  "author": "Elitinho123456",
   "type": "module",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tsx server.ts"
   },
   "dependencies": {
-    "tsx": "^4.20.6"
+    "bson": "^6.10.4",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.20.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.9.1"
   }
 }
