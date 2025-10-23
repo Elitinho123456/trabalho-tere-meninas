@@ -1,0 +1,23 @@
+{
+  "name": "trabalho-tere-meninas",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Elitinho123456/trabalho-tere-meninas#readme",
+  "bugs": {
+    "url": "https://github.com/Elitinho123456/trabalho-tere-meninas/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elitinho123456/trabalho-tere-meninas.git"
+  },
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "tsx": "^4.20.6"
+  }
+}
