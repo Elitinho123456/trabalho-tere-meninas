@@ -15,11 +15,15 @@ const cartController = new CartController();
 const adminController = new AdminController();
 
 // Public routes
+router.get("/", (req, res) => {
+    res.send(`Por favor dirija-se para http://localhost:5173/ em uma rota válida`);
+});
+
 router.post("/auth/register", (req, res) => userController.createUser(req, res));
 router.post("/auth/login", (req, res) => userController.login(req, res));
 
 // Protected User routes
-router.get("/cart/items", authMiddleware, (req, res) => cartController.getCartItems(req, res));
+router.get("/cart/items", (req, res) => cartController.getCartItems(req, res));
 // Add other cart routes here (add, update, remove items, etc.)
 
 // Admin only routes
